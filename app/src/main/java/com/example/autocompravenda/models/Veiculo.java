@@ -15,6 +15,8 @@ public class Veiculo {
     public String imagemUri;
     public int usuarioId;
 
+    public boolean favorito;
+
     public Veiculo(String marca, String modelo, int ano, double preco, String imagemUri, int usuarioId) {
         this.marca = marca;
         this.modelo = modelo;

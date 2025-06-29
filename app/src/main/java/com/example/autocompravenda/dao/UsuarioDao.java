@@ -6,22 +6,20 @@ import androidx.room.Query;
 
 import com.example.autocompravenda.models.Usuario;
 
+import java.util.List;
+
 @Dao
-public abstract class UsuarioDao {
-    public int id;
+public interface UsuarioDao {
 
     @Insert
-    public void inserir(Usuario usuario) {
-
-    }
+    void inserir(Usuario usuario);
 
     @Query("SELECT * FROM Usuario WHERE email = :email AND senha = :senha LIMIT 1")
-    public Usuario login(String email, String senha) {
-        return null;
-    }
+    Usuario login(String email, String senha);
 
     @Query("SELECT * FROM Usuario WHERE email = :email LIMIT 1")
-    public Usuario buscarPorEmail(String email) {
-        return null;
-    }
+    Usuario buscarPorEmail(String email);
+
+    @Query("SELECT * FROM Usuario")
+    List<Usuario> listarTodos();
 }

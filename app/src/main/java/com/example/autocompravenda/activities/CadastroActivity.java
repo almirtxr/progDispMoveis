@@ -15,7 +15,9 @@ public class CadastroActivity extends AppCompatActivity {
 
     private EditText etNome, etEmail, etSenha;
     private Button btnCadastrar;
+    private Button btnFazerLogin;
     private UsuarioDao usuarioDao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class CadastroActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etSenha = findViewById(R.id.etSenha);
         btnCadastrar = findViewById(R.id.btnCadastrar);
+        btnFazerLogin = findViewById(R.id.btnFazerLogin);
 
         usuarioDao = AppDatabase.getDatabase(this).usuarioDao();
 
@@ -48,6 +51,10 @@ public class CadastroActivity extends AppCompatActivity {
 
             startActivity(new Intent(this, LoginActivity.class));
             // volta para o Login
+        });
+
+        btnFazerLogin.setOnClickListener(view -> {
+            startActivity(new Intent(this, LoginActivity.class));
         });
     }
 }

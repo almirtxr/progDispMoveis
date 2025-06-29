@@ -32,4 +32,10 @@
         android:layout_height="wrap_content"
         android:text="Cadastrar"
         android:layout_marginTop="16dp"/>
+    <Button
+        android:id="@+id/btnFazerLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Fazer login"
+        android:layout_marginTop="16dp"/>
 </LinearLayout>

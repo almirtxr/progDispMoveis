@@ -7,13 +7,16 @@ import androidx.room.RoomDatabase;
 import com.example.autocompravenda.dao.UsuarioDao;
 import com.example.autocompravenda.dao.VeiculoDao;
 import com.example.autocompravenda.models.Usuario;
+import com.example.autocompravenda.models.Veiculo;
 
-@Database(entities = {Usuario.class}, version = 1)
+@Database(entities = {Usuario.class, Veiculo.class}, version = 1)
+
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase instancia;
-
     public abstract UsuarioDao usuarioDao();
     public abstract VeiculoDao veiculoDao();
+
+    Context context;
 
     public static AppDatabase getDatabase(final Context context) {
         if (instancia == null) {
