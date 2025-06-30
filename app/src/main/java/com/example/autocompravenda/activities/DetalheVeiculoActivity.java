@@ -1,5 +1,6 @@
 package com.example.autocompravenda.activities;
 
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import java.io.File;
 import com.example.autocompravenda.R;
 import com.example.autocompravenda.models.Veiculo;
 import com.example.autocompravenda.models.DetalheVeiculoViewModel;
@@ -27,17 +27,17 @@ public class DetalheVeiculoActivity extends AppCompatActivity {
     private Button btnFavoritar;
 
     private DetalheVeiculoViewModel viewModel;
-    private boolean isFavoritoAtual; // Guarda o estado atual para o Toast
+    private boolean isFavoritoAtual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhe_veiculo);
 
-        // Inicializa o ViewModel
+
         viewModel = new ViewModelProvider(this).get(DetalheVeiculoViewModel.class);
 
-        // Bind das views
+
         tvMarca = findViewById(R.id.tvMarca);
         tvModelo = findViewById(R.id.tvModelo);
         tvAno = findViewById(R.id.tvAno);
@@ -52,22 +52,22 @@ public class DetalheVeiculoActivity extends AppCompatActivity {
             return;
         }
 
-        // Observa o LiveData do ViewModel
         viewModel.getVeiculoById(veiculoId).observe(this, veiculo -> {
             if (veiculo == null) {
-                // Isso pode acontecer se o item for deletado enquanto a tela está aberta
+
                 Toast.makeText(this, "Veículo não encontrado", Toast.LENGTH_SHORT).show();
                 finish();
                 return;
             }
-            // Quando os dados do veículo chegam, atualizamos a UI
+
             preencherDados(veiculo);
         });
 
-        // Clique no botão para favoritar
+
         btnFavoritar.setOnClickListener(v -> {
             viewModel.alternarFavorito();
-            // O Toast agora pode ser mais reativo
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.sound_favorito);
+            mediaPlayer.start();
             String mensagem = !isFavoritoAtual ? "Adicionado aos favoritos" : "Removido dos favoritos";
             Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
         });

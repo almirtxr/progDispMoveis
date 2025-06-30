@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
         // Toolbar
         setSupportActionBar(binding.toolbar);
 
-        // FAB para cadastrar veículo
+        // cadastrar veículo
         binding.fab.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CadastroVeiculoActivity.class);
             startActivity(intent);
         });
 
-        // Bottom Navigation
+        // menu Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment fragment = null;
@@ -71,9 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
-
-
-        // Mostra "Procurar" por padrão
         bottomNav.setSelectedItemId(R.id.nav_procurar);
     }
 

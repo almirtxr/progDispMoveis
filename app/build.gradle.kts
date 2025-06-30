@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(libs.appcompat)
+    implementation("androidx.camera:camera-camera2:1.4.2")
     implementation(libs.material)
     implementation(libs.constraintlayout)
     implementation(libs.navigation.fragment)

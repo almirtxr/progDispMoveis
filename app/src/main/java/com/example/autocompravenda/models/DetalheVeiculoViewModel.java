@@ -1,14 +1,10 @@
 package com.example.autocompravenda.models;
 
 import android.app.Application;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import com.example.autocompravenda.database.AppDatabase;
-import com.example.autocompravenda.models.Veiculo;
 import com.example.autocompravenda.dao.VeiculoDao;
 
 public class DetalheVeiculoViewModel extends AndroidViewModel {
@@ -23,7 +19,7 @@ public class DetalheVeiculoViewModel extends AndroidViewModel {
 
     public LiveData<Veiculo> getVeiculoById(int id) {
         if (veiculo == null) {
-            veiculo = veiculoDao.buscarPorIdLiveData(id); // O DAO precisa retornar LiveData
+            veiculo = veiculoDao.buscarPorIdLiveData(id);
         }
         return veiculo;
     }

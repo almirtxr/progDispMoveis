@@ -7,12 +7,9 @@ import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.autocompravenda.R;
 import com.example.autocompravenda.activities.DetalheVeiculoActivity;
 import com.example.autocompravenda.models.Veiculo;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class VeiculoAdapter extends RecyclerView.Adapter<VeiculoAdapter.VeiculoViewHolder> {
@@ -48,7 +45,7 @@ public class VeiculoAdapter extends RecyclerView.Adapter<VeiculoAdapter.VeiculoV
         if (veiculo.imagemUri != null && !veiculo.imagemUri.isEmpty()) {
             holder.ivItemFoto.setImageURI(Uri.parse(veiculo.imagemUri));
         } else {
-            holder.ivItemFoto.setImageResource(R.drawable.ic_auto_image); // imagem default
+            holder.ivItemFoto.setImageResource(R.drawable.ic_auto_image); // imagem padrao
         }
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetalheVeiculoActivity.class);

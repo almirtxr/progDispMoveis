@@ -6,15 +6,12 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.*;
-
 import com.example.autocompravenda.R;
 import com.example.autocompravenda.activities.DetalheVeiculoActivity;
 import com.example.autocompravenda.adapters.VeiculoAdapter;
 import com.example.autocompravenda.database.AppDatabase;
 import com.example.autocompravenda.models.Veiculo;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +22,7 @@ public class FirstFragment extends Fragment implements VeiculoAdapter.OnItemClic
 
     @Override
     public void onItemClick(Veiculo veiculo) {
-        // Cria uma Intent para abrir a tela de detalhes
         Intent intent = new Intent(getActivity(), DetalheVeiculoActivity.class);
-        // Passa o ID do veículo clicado para a próxima tela
         intent.putExtra("veiculo_id", veiculo.id);
         startActivity(intent);
     }

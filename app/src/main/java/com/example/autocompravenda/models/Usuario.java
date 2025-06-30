@@ -11,6 +11,7 @@ public class Usuario {
     public String nome;
     public String email;
     public String senha;
+    public String fotoPerfilUri;
 
     public Usuario(String nome, String email, String senha) {
         this.nome = nome;

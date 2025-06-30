@@ -1,8 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="Base.Theme.AutoCompraVenda" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="actionBarTheme">@style/CustomActionBar</item>
+        <item name="actionBarPopupTheme">@style/PopupMenuOverlay</item>
+    </style>
+
+    <style name="CustomActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/black</item> <!-- Cor dos ícones e título da toolbar -->
+    </style>
+
+
+    <style name="PopupMenuOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@color/black</item> <!-- Cor do texto dos itens "Sair", "Configurações", etc -->
     </style>
 
     <style name="Theme.AutoCompraVenda" parent="Base.Theme.AutoCompraVenda" />

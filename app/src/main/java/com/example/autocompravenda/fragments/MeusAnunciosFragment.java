@@ -4,21 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.autocompravenda.R;
 import com.example.autocompravenda.activities.DetalheVeiculoActivity;
 import com.example.autocompravenda.adapters.VeiculoAdapter;
 import com.example.autocompravenda.database.AppDatabase;
 import com.example.autocompravenda.models.Veiculo;
-
 import java.util.List;
 
 public class MeusAnunciosFragment extends Fragment {

@@ -1,66 +1,115 @@
 package com.example.autocompravenda.fragments;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.example.autocompravenda.R;
+import com.example.autocompravenda.database.AppDatabase;
+import com.example.autocompravenda.models.Usuario;
+import java.io.File;
+import java.io.IOException;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class PerfilFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public PerfilFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PerfilFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static PerfilFragment newInstance(String param1, String param2) {
-        PerfilFragment fragment = new PerfilFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private static final int REQUEST_CAMERA = 1;
+    private Uri fotoUri;
+    private ImageView ivFotoPerfil;
+    private File fotoFile;
+    private TextView tvNomeUsuario;
+    private AppDatabase db;
+    public PerfilFragment() {}
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+
+        ivFotoPerfil = view.findViewById(R.id.ivFotoPerfil);
+        Button btnFotoCamera = view.findViewById(R.id.btnFotoCamera);
+        tvNomeUsuario = view.findViewById(R.id.tvNomeUsuario);
+
+        btnFotoCamera.setOnClickListener(v -> abrirCamera());
+
+        return view;
+    }
+
+    private void abrirCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            try {
+                fotoFile = criarArquivoImagem();
+                if (fotoFile != null) {
+                    fotoUri = FileProvider.getUriForFile(
+                            getContext(),
+                            getActivity().getPackageName() + ".provider",
+                            fotoFile
+                    );
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fotoUri);
+                    startActivityForResult(intent, REQUEST_CAMERA);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+    private File criarArquivoImagem() throws IOException {
+        String nomeArquivo = "foto_perfil";
+        File diretorio = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        return File.createTempFile(nomeArquivo, ".jpg", diretorio);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
+            ivFotoPerfil.setImageURI(fotoUri);
+
+            SharedPreferences prefs = getContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+            int usuarioId = prefs.getInt("usuario_id", -1);
+
+            if (usuarioId != -1) {
+                AppDatabase.getDatabase(getContext())
+                        .usuarioDao()
+                        .atualizarFotoPerfil(usuarioId, fotoUri.toString());
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        SharedPreferences prefs = getContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+        int usuarioId = prefs.getInt("usuario_id", -1);
+
+        if (usuarioId != -1) {
+            Usuario usuario = AppDatabase.getDatabase(getContext()).usuarioDao().buscarPorId(usuarioId);
+
+            if (usuario != null) {
+                tvNomeUsuario.setText("Olá, " + usuario.nome);
+
+                if (usuario.fotoPerfilUri != null) {
+                    ivFotoPerfil.setImageURI(Uri.parse(usuario.fotoPerfilUri));
+                }
+            }
+        }
+    }
+
 }

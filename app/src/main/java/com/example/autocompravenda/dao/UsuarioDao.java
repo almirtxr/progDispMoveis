@@ -22,4 +22,11 @@ public interface UsuarioDao {
 
     @Query("SELECT * FROM Usuario")
     List<Usuario> listarTodos();
+
+    @Query("SELECT * FROM Usuario WHERE id = :id")
+    Usuario buscarPorId(int id);
+
+    @Query("UPDATE Usuario SET fotoPerfilUri = :uri WHERE id = :usuarioId")
+    void atualizarFotoPerfil(int usuarioId, String uri);
+
 }
